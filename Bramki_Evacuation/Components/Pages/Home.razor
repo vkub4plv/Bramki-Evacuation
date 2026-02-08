@@ -1,0 +1,91 @@
+﻿@page "/"
+@implements IDisposable
+@inject Bramki_Evacuation.Dashboard.EvacStore Store
+
+<div class="dash">
+    <div class="status @(snap.IsStale ? "stale" : "ok")">
+        @if (snap.IsStale)
+        {
+            <div class="status-title"><span class="dot"></span>Brak połączenia / dane nieaktualne</div>
+            <div class="status-sub">@snap.Error</div>
+            <div class="status-sub">Ostatnia aktualizacja: @Ago(snap.LastSuccessUtc)</div>
+        }
+        else
+        {
+            <div class="status-title"><span class="dot"></span>Połączono</div>
+            <div class="status-sub">Ostatnia aktualizacja: @Ago(snap.LastSuccessUtc)</div>
+        }
+    </div>
+
+    <div class="grid">
+        <section class="card">
+            <div class="card-head">
+                <h2>Ewakuowani</h2>
+                <div class="pill ok">@snap.EvacuatedCount</div>
+            </div>
+
+            <div class="list">
+                @if (snap.Evacuated.Length == 0)
+                {
+                    <div class="empty">Brak</div>
+                }
+                else
+                {
+                    @foreach (var p in snap.Evacuated)
+                    {
+                        <div class="row">@p.DisplayName</div>
+                    }
+                }
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-head">
+                <h2>Nadal na miejscu</h2>
+                <div class="pill danger">@snap.StillOnsiteCount</div>
+            </div>
+
+            <div class="list">
+                @if (snap.StillOnsite.Length == 0)
+                {
+                    <div class="empty">Brak</div>
+                }
+                else
+                {
+                    @foreach (var p in snap.StillOnsite)
+                    {
+                        <div class="row">@p.DisplayName</div>
+                    }
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+@code {
+    private Bramki_Evacuation.Dashboard.EvacSnapshot snap = default!;
+
+    protected override void OnInitialized()
+    {
+        snap = Store.Snapshot;
+        Store.Changed += OnChanged;
+    }
+
+    private void OnChanged() => InvokeAsync(() =>
+    {
+        snap = Store.Snapshot;
+        StateHasChanged();
+    });
+
+    public void Dispose() => Store.Changed -= OnChanged;
+
+    private static string Ago(DateTimeOffset utc)
+    {
+        if (utc == DateTimeOffset.MinValue) return "nigdy";
+        var d = DateTimeOffset.UtcNow - utc;
+        if (d.TotalSeconds < 2) return "przed chwilą";
+        if (d.TotalSeconds < 60) return $"{(int)d.TotalSeconds}s temu";
+        if (d.TotalMinutes < 60) return $"{(int)d.TotalMinutes}m temu";
+        return $"{(int)d.TotalHours}h temu";
+    }
+}

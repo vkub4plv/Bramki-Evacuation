@@ -1,0 +1,311 @@
+﻿:root {
+    --bg: #0f1115;
+    --panel: #141824;
+    --panel2: #10131b;
+    --border: rgba(255,255,255,.08);
+    --text: #e9ecf1;
+    --muted: rgba(233,236,241,.65);
+    --good: #2dd4bf;
+    --bad: #fb7185;
+    --shadow: 0 14px 45px rgba(0,0,0,.55);
+    --radius: 18px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: radial-gradient(1200px 700px at 20% -10%, rgba(45,212,191,.16), transparent 60%), radial-gradient(900px 600px at 110% 10%, rgba(251,113,133,.12), transparent 55%), radial-gradient(900px 600px at 40% 120%, rgba(59,130,246,.10), transparent 55%), var(--bg);
+    background-attachment: fixed;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: transparent;
+}
+
+/* Layout */
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.appbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 70px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    background: rgba(15,17,21,.65);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: .2px;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.badge {
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.main {
+    flex: 1;
+    padding: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 48px;
+}
+
+.dash {
+    width: min(1200px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Status */
+.status {
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    box-shadow: var(--shadow);
+}
+
+    .status.ok {
+        border-color: rgba(45,212,191,.35);
+        background: linear-gradient(180deg, rgba(45,212,191,.16), rgba(255,255,255,.02));
+    }
+
+    .status.stale {
+        border-color: rgba(251,113,133,.35);
+        background: linear-gradient(180deg, rgba(251,113,133,.16), rgba(255,255,255,.02));
+    }
+
+.status-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.25);
+    box-shadow: 0 0 0 4px rgba(255,255,255,.05);
+}
+
+.status.ok .dot {
+    background: var(--good);
+    box-shadow: 0 0 0 4px rgba(45,212,191,.15);
+}
+
+.status.stale .dot {
+    background: var(--bad);
+    box-shadow: 0 0 0 4px rgba(251,113,133,.15);
+}
+
+.status-sub {
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.25rem;
+    font-size: 14px;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+/* Cards */
+.card {
+    background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: rgba(16,19,27,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+    .card-head h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: .2px;
+    }
+
+.pill {
+    min-width: 52px;
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-weight: 950;
+    font-variant-numeric: tabular-nums;
+    background: rgba(255,255,255,.06);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+    .pill.ok {
+        border-color: rgba(45,212,191,.35);
+        background: rgba(45,212,191,.10);
+    }
+
+    .pill.danger {
+        border-color: rgba(251,113,133,.35);
+        background: rgba(251,113,133,.10);
+    }
+
+/* List */
+.list {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: 10px;
+    scrollbar-width: thin;
+}
+
+    .list::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .list::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,.10);
+        border-radius: 999px;
+    }
+
+    .list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+/* Rows */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 12px;
+    border-radius: 14px;
+    background: rgba(0,0,0,.18);
+    border: 1px solid rgba(255,255,255,.06);
+    margin: 8px 0;
+    font-size: 18px;
+    letter-spacing: .1px;
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .row:hover {
+        border-color: rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+    }
+
+.empty {
+    padding: 22px 12px;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    border: 1px dashed rgba(255,255,255,.12);
+    border-radius: 14px;
+    margin: 10px;
+    font-size: 18px;
+    background: rgba(255,255,255,.02);
+}
+
+/* Mobile */
+@media (max-width: 980px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main {
+        padding: 14px;
+        padding-bottom: 36px;
+    }
+
+    .appbar {
+        padding: 0 14px;
+    }
+}
+
+/* Short screens: don’t force tall cards */
+@media (max-height: 720px) {
+    .card {
+        min-height: 320px;
+    }
+}
+
+/* Turn the reconnect UI into a small non-blocking toast */
+#components-reconnect-modal,
+.components-reconnect-modal {
+    position: fixed !important;
+    inset: auto 16px 16px auto !important;
+    width: 320px !important;
+    max-width: calc(100vw - 32px) !important;
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+    background: rgba(15,17,21,.85) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 14px 45px rgba(0,0,0,.55) !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+}
+
+    #components-reconnect-modal > div,
+    .components-reconnect-modal > div {
+        margin: 0 !important;
+    }
+
+#blazor-error-ui {
+    display: none !important;
+}
